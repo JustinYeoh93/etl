@@ -51,10 +51,13 @@ func main() {
 
 		_, ok := scrapeCache[cp.Id]
 		if !ok {
-			c.SendStatus(400)
-			return c.SendString(fmt.Sprintf("%s not found", cp.Id))
+			log.Printf("unable to find id %s", cp.Id)
+			return c.SendString(fmt.Sprintf("unable to find id %s", cp.Id))
 		}
 
+		scrapeCache[cp.Id] = cp.Scraping
+
+		log.Printf("update cache %s", cp.Id)
 		return c.JSON(scrapeCache)
 	})
 
